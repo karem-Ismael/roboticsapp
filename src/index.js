@@ -2,11 +2,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import {createLogger} from 'redux-logger'
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware,combineReducers} from 'redux';
 import * as serviceWorker from './serviceWorker';
-
+import {actionReducer,requestRobots} from './actionReducer'
+import 'tachyons'
+import thunkMiddleware from 'redux-thunk';
+const logger=createLogger();
+const rootReducer=combineReducers({
+  actionReducer,requestRobots
+})
+const store=createStore(rootReducer,applyMiddleware(thunkMiddleware,logger));
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
